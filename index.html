@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Employee Attendance Dashboard</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link href="https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.4.0/jspdf.umd.min.js"></script>
+</head>
+
+<body>
+
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <div class="logo-details">
+            <div style="font-size: 28px;">
+                <i class='bx bxl-c-plus-plus icon'></i> iDataOps
+            </div>
+        </div>
+        <ul class="nav-list">
+            <li>
+                <a href="#overview" onclick="showSection('overview')">
+                    <i class='bx bx-grid-alt'></i>
+                    <span class="links_name">Dashboard</span>
+                </a>
+            </li>
+            <li>
+                <a href="#profiles" onclick="showSection('profiles')">
+                    <i class='bx bx-user'></i>
+                    <span class="links_name">Employee Profiles</span>
+                </a>
+            </li>
+            <li>
+                <a href="#employeeRecords" onclick="showSection('employeeRecords')">
+                    <i class='bx bx-folder'></i>
+                    <span class="links_name">Employee Records</span>
+                </a>
+            </li>
+            <li>
+                <a href="#markAttendance" onclick="showSection('markAttendance')">
+                    <i class='bx bx-calendar-check'></i>
+                    <span class="links_name">Mark Attendance</span>
+                </a>
+            </li>
+            <li>
+                <a href="#attendanceRecords" onclick="showSection('attendanceRecords')">
+                    <i class='bx bx-time'></i>
+                    <span class="links_name">Attendance Records</span>
+                </a>
+            </li>
+            <li>
+                <a href="#inOfficeRecords" onclick="showSection('inOfficeRecords')">
+                    <i class="fa-solid fa-business-time"></i>
+                    <span class="links_name">In-Office Records</span>
+                </a>
+            </li>
+            <li>
+                <a href="#workFromHomeRecords" onclick="showSection('workFromHomeRecords')">
+                    <i class="fa-solid fa-house-laptop"></i>
+                    <span class="links_name">Work From Home Records</span>
+                </a>
+            </li>
+            <li>
+                <a href="#reports" onclick="showSection('reports')">
+                    <i class='bx bx-bar-chart'></i>
+                    <span class="links_name">Reports</span>
+                </a>
+            </li>
+        </ul>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <header>
+            <h1>iDataOps's Management</h1>
+        </header>
+
+        <!-- Dashboard Overview -->
+        <section id="overview" class="section active">
+            <h2>Dashboard Overview</h2>
+            <div class="dashboard-cards">
+                <div class="card">
+                    <h3>Total Employees</h3>
+                    <p id="totalEmployees">0</p>
+                    <div class="card-icon">
+                        <i class="fas fa-users"></i>
+                    </div>
+                </div>
+                <div class="card">
+                    <h3>Today's Attendance</h3>
+                    <p id="todayAttendance">0</p>
+                    <div class="card-icon">
+                        <i class="fas fa-calendar-check"></i>
+                    </div>
+                </div>
+                <div class="card">
+                    <h3>Work From Home</h3>
+                    <p id="workFromHomeCount">0</p>
+                    <div class="card-icon">
+                        <i class="fa-solid fa-house-laptop"></i>
+                    </div>
+                </div>
+                <div class="card">
+                    <h3>In-Office</h3>
+                    <p id="inOfficeCount">0</p>
+                    <div class="card-icon">
+                        <i class="fa-solid fa-business-time"></i>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Employee Profiles -->
+        <section id="profiles" class="section">
+            <h2>Employee Profiles</h2>
+            <form id="employeeForm">
+                <input type="text" id="empName" placeholder="Employee Name" required>
+                <input type="text" id="empID" placeholder="Employee ID" required>
+                <select name="Working Mode" id="WokingMode" required>
+                    <option value="Work From Home">Work From Home</option>
+                    <option value="In-Office">In-Office</option>
+                </select>
+                <button type="submit">Add Employee</button>
+            </form>
+        </section>
+
+        <!-- Employee Records -->
+        <section id="employeeRecords" class="section">
+            <h2>Employee Records</h2>
+            <table id="employeeTable">
+                <thead>
+                    <tr>
+                        <th>Employee Name</th>
+                        <th>Employee ID</th>
+                        <th>Working Details</th>
+                    </tr>
+                </thead>
+                <tbody id="employeeList"></tbody>
+            </table>
+        </section>
+
+        <!-- Mark Attendance -->
+        <section id="markAttendance" class="section">
+            <h2>Mark Attendance</h2>
+            <form id="attendanceForm">
+                <select id="attendanceEmployee" required>
+                    <option value="">Select Employee</option>
+                </select>
+                <input type="time" id="inTime" required>
+                <input type="time" id="outTime" required>
+                <button type="submit">Mark Attendance</button>
+            </form>
+        </section>
+
+        <!-- Attendance Records -->
+        <section id="attendanceRecords" class="section">
+            <h2>Attendance Records</h2>
+            <table id="attendanceTable">
+                <thead>
+                    <tr>
+                        <th>Employee Name</th>
+                        <th>Employee ID</th>
+                        <th>In Time</th>
+                        <th>Out Time</th>
+                        <th>Date</th>
+                    </tr>
+                </thead>
+                <tbody id="attendanceList"></tbody>
+            </table>
+        </section>
+
+        <!-- Work From Home Details Section -->
+        <section id="workFromHomeRecords" class="section">
+            <h2>Work From Home Employees</h2>
+            <table id="workFromHomeDetailsTable">
+                <thead>
+                    <tr>
+                        <th>Employee Name</th>
+                        <th>Employee ID</th>
+                        <th>Working Mode</th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+        </section>
+
+        <!-- In-Office Details Section -->
+        <section id="inOfficeRecords" class="section">
+            <h2>In-Office Employees</h2>
+            <table id="inOfficeDetailsTable">
+                <thead>
+                    <tr>
+                        <th>Employee Name</th>
+                        <th>Employee ID</th>
+                        <th>Working Mode</th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+        </section>
+
+        <!-- Reports -->
+        <section id="reports" class="section">
+            <h2>Reports</h2>
+            <button id="reportButton">Download Report</button>
+        </section>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.22/jspdf.plugin.autotable.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
